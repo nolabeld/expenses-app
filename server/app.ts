@@ -1,6 +1,8 @@
 import { Hono } from 'hono';
 import { logger } from 'hono/logger';
+import { serveStatic } from 'hono/bun';
 import { exprensesRoute } from './routes/expenses';
+import { serve } from 'bun';
 
 // Init app
 const app = new Hono();
@@ -8,13 +10,9 @@ const app = new Hono();
 app.use('*', logger());
 
 // Routes
-app.get('/', (c) => c.text('Hono!'));
-app.get('/test', (c) => {
-  return c.json({
-    message: 'Hello World',
-  });
-});
-
 app.route('/api/expenses', exprensesRoute);
+
+app.get('*', serveStatic({ root: './frontend/dist' }));
+app.get('*', serveStatic({ path: './frontend/dist/index.html' }));
 
 export default app;
