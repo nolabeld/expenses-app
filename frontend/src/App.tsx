@@ -1,29 +1,30 @@
-import './App.css';
+import "./App.css"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { useEffect, useState } from 'react';
+} from "@/components/ui/card"
+import { useEffect, useState } from "react"
+import { api } from "./lib/api"
 
 function App() {
-  const [totalSpent, setTotalSpent] = useState(0);
+  const [totalSpent, setTotalSpent] = useState(0)
 
   useEffect(() => {
     async function fetchTotalSpent() {
-      const res = await fetch('api/expenses/getTotalSpent');
-      const data = await res.json();
-      setTotalSpent(data.total);
+      const res = await api.expenses["getTotalSpent"].$get()
+      const data = await res.json()
+      setTotalSpent(data.total)
     }
 
-    fetchTotalSpent();
-  });
+    fetchTotalSpent()
+  })
 
   return (
-    <div className='w-[400px] m-auto'>
-      <Card className='text-left'>
+    <div className="w-[400px] m-auto">
+      <Card className="text-left">
         <CardHeader>
           <CardTitle>Total spent</CardTitle>
           <CardDescription>Total amount you've spent</CardDescription>
@@ -31,7 +32,7 @@ function App() {
         <CardContent>{totalSpent}</CardContent>
       </Card>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

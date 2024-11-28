@@ -1,15 +1,27 @@
 # expenses-app
 
+Bun+Hono+React
+
 To install dependencies:
 
 ```bash
 bun install
 ```
 
-To run:
+### To run for dev:
 
 ```bash
-bun run index.ts
+bun dev
 ```
 
-This project was created using `bun init` in bun v1.1.37. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+cd to frontend folder and run
+
+```bash
+bun run dev
+```
+
+### To build run in frontend folder:
+
+```bash
+bun run build
+```
