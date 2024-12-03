@@ -37,9 +37,9 @@ function Expenses() {
   }
 
   return (
-    <div className="p-2 max-w-3xl m-auto">
+    <div className="py-4 max-w-xl m-auto">
       <Table>
-        <TableCaption>All expenses: </TableCaption>
+        <TableCaption>Total: ...</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Id</TableHead>

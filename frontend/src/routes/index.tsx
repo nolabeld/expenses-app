@@ -33,7 +33,7 @@ function Index() {
   }
 
   return (
-    <div className="w-[400px] m-auto">
+    <div className="max-w-xl m-auto py-4">
       <Card className="text-left">
         <CardHeader>
           <CardTitle>Total spent</CardTitle>
