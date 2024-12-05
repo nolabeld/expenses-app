@@ -2,7 +2,6 @@ import { Hono } from "hono"
 import { logger } from "hono/logger"
 import { serveStatic } from "hono/bun"
 import { exprensesRoute } from "./routes/expenses"
-import { serve } from "bun"
 
 // Init app
 const app = new Hono()
