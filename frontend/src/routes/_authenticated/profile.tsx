@@ -15,7 +15,7 @@ function Profile() {
   if (error) return "Not logged in"
 
   return (
-    <div className="py-6 m-auto max-w-xl flex flex-col gap-4 items-start">
+    <div className="py-6 px-2 m-auto max-w-xl flex flex-col gap-4 items-center">
       <h2 className="text-2xl">
         Hello, {data.user.given_name}! Nice to see you!
       </h2>

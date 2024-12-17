@@ -6,7 +6,7 @@ import {
 } from "@kinde-oss/kinde-typescript-sdk"
 import { type Context } from "hono"
 import { getCookie, setCookie, deleteCookie } from "hono/cookie"
-import { createFactory, createMiddleware } from "hono/factory"
+import { createMiddleware } from "hono/factory"
 
 // Client for authorization code flow
 export const kindeClient = createKindeServerClient(

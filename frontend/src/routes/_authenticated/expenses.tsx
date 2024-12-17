@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { api } from '@/lib/api'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from "@tanstack/react-router"
+import { api, getTotalSpent } from "@/lib/api"
+import { useQuery } from "@tanstack/react-query"
 import {
   Table,
   TableBody,
@@ -9,17 +9,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Skeleton } from '@/components/ui/skeleton'
+} from "@/components/ui/table"
+import { Skeleton } from "@/components/ui/skeleton"
 
-export const Route = createFileRoute('/_authenticated/expenses')({
+export const Route = createFileRoute("/_authenticated/expenses")({
   component: Expenses,
 })
 
 async function getAllExpenses() {
   const result = await api.expenses.$get()
   if (!result.ok) {
-    throw new Error('error')
+    throw new Error("error")
   }
   const data = await result.json()
   return data
@@ -28,21 +28,28 @@ async function getAllExpenses() {
 function Expenses() {
   // Queries
   const { isPending, error, data } = useQuery({
-    queryKey: ['getAllExpenses'],
+    queryKey: ["getAllExpenses"],
     queryFn: getAllExpenses,
   })
 
+  const { isPending: isTotalSpensPending, data: totalSpent } = useQuery({
+    queryKey: ["getTotalSpent"],
+    queryFn: getTotalSpent,
+  })
+
   if (error) {
-    return 'Error:' + error.message
+    return "Error:" + error.message
   }
 
   return (
     <div className="py-4 max-w-xl m-auto">
       <Table>
-        <TableCaption>Total: ...</TableCaption>
+        <TableCaption>
+          Total: {isTotalSpensPending ? "..." : totalSpent?.total}
+        </TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Id</TableHead>
+            <TableHead className="w-[140px]">Date</TableHead>
             <TableHead>Title</TableHead>
             <TableHead className="text-right">Amount</TableHead>
           </TableRow>
@@ -53,7 +60,7 @@ function Expenses() {
           ) : (
             data?.expenses.map((expense) => (
               <TableRow key={expense.id}>
-                <TableCell className="font-medium">{expense.id}</TableCell>
+                <TableCell className="font-medium">{expense.date}</TableCell>
                 <TableCell>{expense.title}</TableCell>
                 <TableCell className="text-right">${expense.amount}</TableCell>
               </TableRow>

@@ -15,6 +15,13 @@
       "when": 1734443913822,
       "tag": "0001_bitter_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734469972730,
+      "tag": "0002_smooth_lorna_dane",
+      "breakpoints": true
     }
   ]
 }

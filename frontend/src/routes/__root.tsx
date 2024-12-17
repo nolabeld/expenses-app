@@ -4,6 +4,8 @@ import {
   Outlet,
   createRootRouteWithContext,
 } from "@tanstack/react-router"
+import { Switch } from "@/components/ui/switch"
+import { useState } from "react"
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -14,23 +16,36 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 })
 
 function NavBar() {
+  const [isLight, setIsLight] = useState(false)
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle("dark")
+    setIsLight(!isLight)
+  }
+
   return (
-    <div className="flex py-2 gap-2  max-w-xl m-auto">
-      <Link to="/" className="[&.active]:font-bold">
-        Home
+    <div className="flex items-center justify-between px-6 py-3 mt-2 border rounded-xl backdrop-blur-sm max-w-xl m-auto ">
+      <Link to="/" className="text-xl font-bold">
+        <h1>Expenses App</h1>
       </Link>
-      <Link to="/about" className="[&.active]:font-bold">
-        About
-      </Link>
-      <Link to="/expenses" className="[&.active]:font-bold">
-        Expenses
-      </Link>
-      <Link to="/create-expense" className="[&.active]:font-bold">
-        Create
-      </Link>
-      <Link to="/profile" className="[&.active]:font-bold">
-        Profile
-      </Link>
+      <div className="flex gap-2">
+        {/* <Link to="/about" className="[&.active]:font-bold">
+          About
+        </Link> */}
+        <Link to="/expenses" className="[&.active]:font-bold">
+          Expenses
+        </Link>
+        <Link to="/create-expense" className="[&.active]:font-bold">
+          Create
+        </Link>
+        <Link to="/profile" className="[&.active]:font-bold">
+          Profile
+        </Link>
+        <Switch
+          className="mt-0.5"
+          checked={isLight}
+          onCheckedChange={toggleTheme}
+        />
+      </div>
     </div>
   )
 }
@@ -39,7 +54,6 @@ function Root() {
   return (
     <>
       <NavBar />
-      <hr />
       <Outlet />
     </>
   )

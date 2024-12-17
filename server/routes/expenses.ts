@@ -1,38 +1,13 @@
 import { Hono } from "hono"
-import { z } from "zod"
 import { zValidator } from "@hono/zod-validator"
 import { getUser } from "../kinde"
 import { db } from "../db"
-import { expenses as expensesTable } from "../db/schema/expenses"
+import {
+  expenses as expensesTable,
+  insertExpensesSchema,
+} from "../db/schema/expenses"
 import { eq, desc, sum, and } from "drizzle-orm"
-
-const expenseSchema = z.object({
-  id: z.number().int().positive().min(1),
-  title: z.string().min(3).max(100),
-  amount: z.string(),
-})
-
-type Expense = z.infer<typeof expenseSchema>
-
-const createPostSchema = expenseSchema.omit({ id: true })
-
-const fakeExpenses: Expense[] = [
-  {
-    id: 1,
-    title: "Groceries",
-    amount: "50",
-  },
-  {
-    id: 2,
-    title: "Entertainment",
-    amount: "100",
-  },
-  {
-    id: 3,
-    title: "Utilities",
-    amount: "75",
-  },
-]
+import { createExpenseSchema, validateExpenseSchema } from "../sharedTypes"
 
 export const exprensesRoute = new Hono()
   .get("/", getUser, async (c) => {
@@ -41,22 +16,30 @@ export const exprensesRoute = new Hono()
       .select()
       .from(expensesTable)
       .where(eq(expensesTable.userId, user.id))
-      .orderBy(desc(expensesTable.createdAt))
+      .orderBy(desc(expensesTable.date))
       .limit(100)
     return c.json({
       expenses: expenses,
     })
   })
-  .post("/", getUser, zValidator("json", createPostSchema), async (c) => {
+  .post("/", getUser, zValidator("json", createExpenseSchema), async (c) => {
     const expense = await c.req.valid("json")
     const user = c.var.user
-    const result = await db
-      .insert(expensesTable)
-      .values({
+
+    const validatedExpense = insertExpensesSchema
+      .omit({
+        id: true,
+        createdAt: true,
+      })
+      .parse({
         ...expense,
         userId: user.id,
       })
+    const result = await db
+      .insert(expensesTable)
+      .values(validatedExpense)
       .returning()
+      .then((res) => res[0])
     c.status(201)
     return c.json(result)
   })
