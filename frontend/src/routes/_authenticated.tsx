@@ -4,11 +4,11 @@ import { createFileRoute, Outlet } from "@tanstack/react-router"
 
 const Login = () => {
   return (
-    <div className="flex items-center gap-2 max-w-xl m-auto py-2">
+    <div className="flex flex-col items-start gap-4 max-w-xl m-auto py-6">
+      <h2 className="text-2xl">You have to login</h2>
       <Button className="min-w-6">
         <a href="/api/login">Login</a>
       </Button>
-      <span>You have to login</span>
     </div>
   )
 }

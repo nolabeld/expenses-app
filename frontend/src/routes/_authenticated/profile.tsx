@@ -15,11 +15,13 @@ function Profile() {
   if (error) return "Not logged in"
 
   return (
-    <div className="py-2 m-auto max-w-xl flex gap-2 items-center">
+    <div className="py-6 m-auto max-w-xl flex flex-col gap-4 items-start">
+      <h2 className="text-2xl">
+        Hello, {data.user.given_name}! Nice to see you!
+      </h2>
       <Button>
         <a href="/api/logout">Logout</a>
       </Button>
-      Hello, {data.user.given_name}! Nice to see you!
     </div>
   )
 }

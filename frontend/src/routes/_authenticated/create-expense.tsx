@@ -1,11 +1,11 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
-import { useForm } from '@tanstack/react-form'
-import { api } from '@/lib/api'
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { useForm } from "@tanstack/react-form"
+import { api } from "@/lib/api"
 
-export const Route = createFileRoute('/_authenticated/create-expense')({
+export const Route = createFileRoute("/_authenticated/create-expense")({
   component: CreateExpense,
 })
 
@@ -13,16 +13,16 @@ function CreateExpense() {
   const navigate = useNavigate()
   const form = useForm({
     defaultValues: {
-      title: '',
-      amount: 0,
+      title: "",
+      amount: "",
     },
     onSubmit: async ({ value }) => {
       // Do something with form data
       const res = await api.expenses.$post({ json: value })
       if (!res.ok) {
-        throw new Error('server error')
+        throw new Error("server error")
       }
-      navigate({ to: '/expenses' })
+      navigate({ to: "/expenses" })
     },
   })
 
@@ -51,7 +51,7 @@ function CreateExpense() {
                 type="text"
               />
               {field.state.meta.isTouched && field.state.meta.errors.length ? (
-                <em>{field.state.meta.errors.join(', ')}</em>
+                <em>{field.state.meta.errors.join(", ")}</em>
               ) : null}
             </>
           )}
@@ -65,12 +65,12 @@ function CreateExpense() {
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(+e.target.value)}
+                onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Name of the expense"
                 type="number"
               />
               {field.state.meta.isTouched && field.state.meta.errors.length ? (
-                <em>{field.state.meta.errors.join(', ')}</em>
+                <em>{field.state.meta.errors.join(", ")}</em>
               ) : null}
             </>
           )}
@@ -79,7 +79,7 @@ function CreateExpense() {
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
             <Button type="submit" disabled={!canSubmit}>
-              {isSubmitting ? '...' : 'Submit'}
+              {isSubmitting ? "..." : "Submit"}
             </Button>
           )}
         />
