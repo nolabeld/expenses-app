@@ -5,10 +5,15 @@ import { createFileRoute, Outlet } from "@tanstack/react-router"
 const Login = () => {
   return (
     <div className="flex flex-col items-center gap-4 max-w-xl m-auto py-6">
-      <h2 className="text-2xl">You have to login</h2>
-      <Button className="min-w-6">
-        <a href="/api/login">Login</a>
-      </Button>
+      <h2 className="text-2xl">You have to login or register</h2>
+      <div className="flex gap-2">
+        <Button className="min-w-6" variant={"outline"} asChild>
+          <a href="/api/login">Login</a>
+        </Button>
+        <Button className="min-w-6" asChild>
+          <a href="/api/register">Register</a>
+        </Button>
+      </div>
     </div>
   )
 }
@@ -26,7 +31,6 @@ const Component = () => {
 export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async ({ context }) => {
     const queryClient = context.queryClient
-
     try {
       const data = await queryClient.fetchQuery(userQueryOptions)
       return data
@@ -34,10 +38,6 @@ export const Route = createFileRoute("/_authenticated")({
       console.error(e)
       return { user: null }
     }
-    // userQueryOptions
-    // check if the user is authenticated
-    return { user: { name: "John Doe" } }
-    // return { user: null }
   },
   component: Component,
 })

@@ -7,7 +7,7 @@ import {
   insertExpensesSchema,
 } from "../db/schema/expenses"
 import { eq, desc, sum, and } from "drizzle-orm"
-import { createExpenseSchema, validateExpenseSchema } from "../sharedTypes"
+import { createExpenseSchema } from "../sharedTypes"
 
 export const exprensesRoute = new Hono()
   .get("/", getUser, async (c) => {

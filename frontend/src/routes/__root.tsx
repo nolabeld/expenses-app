@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router"
 import { Switch } from "@/components/ui/switch"
 import { useState } from "react"
+import { Toaster } from "@/components/ui/sonner"
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -55,6 +56,7 @@ function Root() {
     <>
       <NavBar />
       <Outlet />
+      <Toaster />
     </>
   )
 }

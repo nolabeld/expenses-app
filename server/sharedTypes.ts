@@ -7,9 +7,4 @@ export const createExpenseSchema = insertExpensesSchema.omit({
   userId: true,
 })
 
-export const validateExpenseSchema = insertExpensesSchema.omit({
-  id: true,
-  createdAt: true,
-})
-
 export type CreateExpense = z.infer<typeof createExpenseSchema>

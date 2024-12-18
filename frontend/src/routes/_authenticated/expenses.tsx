@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { api, getTotalSpent } from "@/lib/api"
+import {
+  getAllExpensesQueryOptions,
+  loadingCreateExpenseQueryOptions,
+} from "@/lib/api"
 import { useQuery } from "@tanstack/react-query"
 import {
   Table,
@@ -11,31 +14,18 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
+import { ExpenseDeleteButton } from "@/shared/ui/delete-button"
 
 export const Route = createFileRoute("/_authenticated/expenses")({
   component: Expenses,
 })
 
-async function getAllExpenses() {
-  const result = await api.expenses.$get()
-  if (!result.ok) {
-    throw new Error("error")
-  }
-  const data = await result.json()
-  return data
-}
-
 function Expenses() {
   // Queries
-  const { isPending, error, data } = useQuery({
-    queryKey: ["getAllExpenses"],
-    queryFn: getAllExpenses,
-  })
-
-  const { isPending: isTotalSpensPending, data: totalSpent } = useQuery({
-    queryKey: ["getTotalSpent"],
-    queryFn: getTotalSpent,
-  })
+  const { isPending, error, data } = useQuery(getAllExpensesQueryOptions)
+  const { data: loadingCreateExpense } = useQuery(
+    loadingCreateExpenseQueryOptions,
+  )
 
   if (error) {
     return "Error:" + error.message
@@ -44,17 +34,27 @@ function Expenses() {
   return (
     <div className="py-4 max-w-xl m-auto">
       <Table>
-        <TableCaption>
-          Total: {isTotalSpensPending ? "..." : totalSpent?.total}
-        </TableCaption>
+        <TableCaption>List of all your expenses.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[140px]">Date</TableHead>
             <TableHead>Title</TableHead>
             <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
+          {loadingCreateExpense?.expense && (
+            <TableRow>
+              <TableCell className="font-medium">
+                <Skeleton className="w-[20px] h-[20px] rounded-full" />
+              </TableCell>
+              <TableCell>{loadingCreateExpense?.expense.title}</TableCell>
+              <TableCell className="text-right">
+                <Skeleton className="w-[50px] h-[20px] ml-auto rounded-full" />
+              </TableCell>
+            </TableRow>
+          )}
           {isPending ? (
             <AllExpensesSkeleton />
           ) : (
@@ -63,6 +63,9 @@ function Expenses() {
                 <TableCell className="font-medium">{expense.date}</TableCell>
                 <TableCell>{expense.title}</TableCell>
                 <TableCell className="text-right">${expense.amount}</TableCell>
+                <TableCell className="text-right w-[60px]">
+                  <ExpenseDeleteButton id={expense.id} />
+                </TableCell>
               </TableRow>
             ))
           )}
@@ -73,7 +76,7 @@ function Expenses() {
 }
 
 function AllExpensesSkeleton() {
-  return Array(3)
+  return Array(8)
     .fill(0)
     .map((_, i) => (
       <TableRow key={i}>
@@ -85,6 +88,9 @@ function AllExpensesSkeleton() {
         </TableCell>
         <TableCell className="text-right">
           <Skeleton className="w-[50px] h-[20px] ml-auto rounded-full" />
+        </TableCell>
+        <TableCell className="text-right">
+          <Skeleton className="w-[36px] h-[36px] ml-auto rounded-md" />
         </TableCell>
       </TableRow>
     ))
