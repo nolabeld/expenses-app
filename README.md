@@ -1,6 +1,8 @@
 # expenses-app
 
-Bun+Hono+React
+[Web demo](https://expenses-app-demo.fly.dev/)
+
+TypeScript+Bun+Hono+Vite+React(+Tanstack+Shadcn+Tailwind+Zod)
 
 To install dependencies:
 
