@@ -4,17 +4,17 @@
 
 ### Stack:
 
-    - TypeScript
-    - Bun
-    - Hono
-    - Vite
-    - React
-    - Tanstack
-        - Router
-        - Query
-    - Shadcn
-        - Tailwind
-    - Zod
+- TypeScript
+- Bun
+- Hono
+- Vite
+- React
+- Tanstack
+  - Router
+  - Query
+- Shadcn
+  - Tailwind
+- Zod
 
 To install dependencies:
 
