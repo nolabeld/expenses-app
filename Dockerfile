@@ -29,6 +29,7 @@ COPY . .
 
 # Build the frontend
 WORKDIR /app/frontend
+RUN bun install --ci
 RUN bun run build
 
 # Return to the root directory
